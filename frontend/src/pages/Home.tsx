@@ -40,18 +40,18 @@ const RECIPE_FILTERS = [
 ];
 
 const INSPIRATION_POOL = [
-  { title: '西红柿炒鸡蛋', icon: '🍅', tags: ['西红柿', '鸡蛋', '葱花'] },
-  { title: '番茄肥牛锅', icon: '🍲', tags: ['番茄', '肥牛', '金针菇'] },
-  { title: '葱油蒸鲈鱼', icon: '🐟', tags: ['鲈鱼', '小葱', '生姜'] },
-  { title: '低脂西兰花鸡胸肉', icon: '🥗', tags: ['鸡胸肉', '西兰花', '胡萝卜'] },
-  { title: '肉末黄金豆腐', icon: '🍳', tags: ['豆腐', '鸡蛋', '猪肉末'] },
-  { title: '辣子鸡丁', icon: '🌶️', tags: ['鸡肉', '干辣椒', '花椒', '花生'] },
-  { title: '可乐鸡翅', icon: '🍗', tags: ['鸡翅', '可乐', '生姜', '大蒜'] },
-  { title: '经典地三鲜', icon: '🍆', tags: ['茄子', '土豆', '青椒'] },
-  { title: '酸辣土豆丝', icon: '🥔', tags: ['土豆', '青椒', '红椒', '醋'] },
-  { title: '虾仁滑蛋', icon: '🍤', tags: ['虾仁', '鸡蛋', '小葱'] },
-  { title: '秘制红烧肉', icon: '🥩', tags: ['五花肉', '八角', '冰糖', '生姜'] },
-  { title: '鲫鱼豆腐汤', icon: '🥣', tags: ['鲫鱼', '豆腐', '生姜', '小葱'] }
+  { key: 'tomato_egg', icon: '🍅' },
+  { key: 'tomato_beef', icon: '🍲' },
+  { key: 'steamed_bass', icon: '🐟' },
+  { key: 'chicken_broccoli', icon: '🥗' },
+  { key: 'tofu_pork', icon: '🍳' },
+  { key: 'spicy_chicken', icon: '🌶️' },
+  { key: 'cola_wings', icon: '🍗' },
+  { key: 'di_san_xian', icon: '🍆' },
+  { key: 'sour_spicy_potato', icon: '🥔' },
+  { key: 'shrimp_egg', icon: '🍤' },
+  { key: 'braised_pork', icon: '🥩' },
+  { key: 'crucian_tofu_soup', icon: '🥣' }
 ];
 
 export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) {
@@ -83,6 +83,13 @@ export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) 
   const handleShuffleInspirations = () => {
     setInspirations([...INSPIRATION_POOL].sort(() => 0.5 - Math.random()).slice(0, 4));
   };
+
+  const getInspirationTitle = (key: string) => t(`home_inspiration_${key}_title`);
+  const getInspirationTags = (key: string) =>
+    t(`home_inspiration_${key}_tags`)
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
 
   const clearGenerationStatusTimers = () => {
     generationTimerRef.current.forEach((timer) => window.clearTimeout(timer));
@@ -536,7 +543,7 @@ export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) 
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Sparkles className="text-orange-500" size={17} />
-              <h3 className="text-xs font-extrabold text-zinc-400 dark:text-zinc-500 tracking-wider uppercase">💡 探索推荐灵感搭配</h3>
+              <h3 className="text-xs font-extrabold text-zinc-400 dark:text-zinc-500 tracking-wider uppercase">{t('home_inspiration_title')}</h3>
             </div>
             <button
               type="button"
@@ -544,26 +551,31 @@ export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) 
               className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-500 hover:text-orange-600 dark:text-orange-400 dark:hover:text-orange-350 transition-colors ios-active-scale cursor-pointer"
             >
               <RotateCw size={13} className="hover:rotate-180 transition-transform duration-500" />
-              <span>换一批</span>
+              <span>{t('home_inspiration_shuffle')}</span>
             </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {inspirations.map((item) => (
-              <button
-                key={item.title}
-                type="button"
-                onClick={() => {
-                  setIngredientsTags(item.tags);
-                }}
-                className="ios-glass bg-white/60 dark:bg-zinc-900/40 border border-zinc-150/45 dark:border-zinc-800/80 p-4 rounded-2xl text-left hover:border-orange-500/30 dark:hover:border-orange-400/30 hover:bg-orange-50/15 dark:hover:bg-orange-950/10 transition-all duration-200 ios-active-scale cursor-pointer flex flex-col justify-between h-24 group shadow-sm"
-              >
-                <span className="text-xl">{item.icon}</span>
-                <div>
-                  <h4 className="font-extrabold text-zinc-800 dark:text-zinc-200 text-sm group-hover:text-orange-500 transition-colors">{item.title}</h4>
-                  <p className="text-xs text-zinc-450 dark:text-zinc-500 mt-0.5 truncate">{item.tags.join(', ')}</p>
-                </div>
-              </button>
-            ))}
+            {inspirations.map((item) => {
+              const title = getInspirationTitle(item.key);
+              const tags = getInspirationTags(item.key);
+
+              return (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => {
+                    setIngredientsTags(tags);
+                  }}
+                  className="ios-glass bg-white/60 dark:bg-zinc-900/40 border border-zinc-150/45 dark:border-zinc-800/80 p-4 rounded-2xl text-left hover:border-orange-500/30 dark:hover:border-orange-400/30 hover:bg-orange-50/15 dark:hover:bg-orange-950/10 transition-all duration-200 ios-active-scale cursor-pointer flex flex-col justify-between h-24 group shadow-sm"
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  <div>
+                    <h4 className="font-extrabold text-zinc-800 dark:text-zinc-200 text-sm group-hover:text-orange-500 transition-colors">{title}</h4>
+                    <p className="text-xs text-zinc-450 dark:text-zinc-500 mt-0.5 truncate">{tags.join(', ')}</p>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
