@@ -159,6 +159,6 @@ add_bullet(tf6, "演示路线引导 (Demo Flow)", "1. 暗黑模式下AI生成 ->
 add_bullet(tf6, "结语", "感谢老师和各位评审！请老师批评指正。")
 
 # Save Presentation
-output_path = r"C:\Users\li\Desktop\智能食谱AI项目答辩.pptx"
+output_path = r"C:\Users\li\Desktop\demo\智能食谱AI项目答辩.pptx"
 prs.save(output_path)
 print("SUCCESS")

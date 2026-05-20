@@ -12,6 +12,10 @@ const apiClient = axios.create({
 // Request interceptor to attach JWT token
 apiClient.interceptors.request.use(
   (config) => {
+    if (typeof config.url === 'string' && config.url.startsWith('/api/')) {
+      config.url = config.url.slice(4);
+    }
+
     const token = localStorage.getItem('token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
