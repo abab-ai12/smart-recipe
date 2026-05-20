@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-ios-orange: #FF9F0A;
+  --color-ios-blue: #0A84FF;
+  --color-ios-green: #30D158;
+  --color-ios-red: #FF3B30;
+  
+  --animate-ai-glow-flow: ai-glow-flow 3s linear infinite;
+  --animate-pulse-radar: pulseRadar 1.5s ease-out infinite;
+}
+
+/* Custom CSS variables for theme support */
+:root {
+  --ios-bg: #F2F2F7;
+  --ios-card-bg: rgba(255, 255, 255, 0.7);
+  --ios-card-border: rgba(0, 0, 0, 0.06);
+  --ios-text: #000000;
+  --ios-text-secondary: #8E8E93;
+}
+
+.dark {
+  --ios-bg: #000000;
+  --ios-card-bg: rgba(28, 28, 30, 0.7);
+  --ios-card-border: rgba(255, 255, 255, 0.08);
+  --ios-text: #FFFFFF;
+  --ios-text-secondary: #8E8E93;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ios-bg);
+  color: var(--ios-text);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom glassmorphism utilities */
+.ios-glass {
+  background: var(--ios-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ios-card-border);
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+/* iOS active spring scale down */
+.ios-active-scale {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s ease, opacity 0.2s ease;
+}
+.ios-active-scale:active {
+  transform: scale(0.96);
+  filter: brightness(0.95);
+}
+
+/* Apple Intelligence Flowing Glow Keyframes */
+@keyframes ai-glow-flow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 159, 10, 0.3), 0 0 30px rgba(10, 132, 255, 0.15);
+    border-color: rgba(255, 159, 10, 0.5);
+  }
+  33% {
+    box-shadow: 0 0 15px rgba(191, 90, 242, 0.3), 0 0 30px rgba(255, 55, 95, 0.15);
+    border-color: rgba(191, 90, 242, 0.5);
+  }
+  66% {
+    box-shadow: 0 0 15px rgba(48, 209, 88, 0.3), 0 0 30px rgba(255, 159, 10, 0.15);
+    border-color: rgba(48, 209, 88, 0.5);
+  }
+}
+
+/* Apply Glow to generating elements */
+.ai-glowing {
+  animation: ai-glow-flow 3s linear infinite;
+  border-width: 1px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Global inputs, selects and textareas styling to support light/dark modes */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea {
+  font-family: inherit;
+  background-color: #ffffff;
+  color: #1f2937; /* text-gray-800 */
+  border-color: #d1d5db; /* border-gray-300 */
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), 
+.dark select, 
+.dark textarea {
+  background-color: #1f1f23 !important;
+  color: #f3f4f6 !important; /* text-gray-100 */
+  border-color: #374151 !important; /* border-gray-700 */
+}
+
+/* Fix dropdown options background in dark mode */
+.dark option {
+  background-color: #1f1f23 !important;
+  color: #f3f4f6 !important;
+}
+
+/* Page fade-in/slide-up transition keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

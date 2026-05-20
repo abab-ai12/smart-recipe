@@ -1,0 +1,24 @@
+{
+  "name": "smart-recipe-backend",
+  "version": "1.0.0",
+  "description": "Node.js + MySQL backend for the Smart Recipe app.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "node --test",
+    "db:init": "node src/scripts/initDatabase.js",
+    "admin:create": "node src/scripts/createAdmin.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.15.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

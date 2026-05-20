@@ -1,0 +1,16 @@
+[Unit]
+Description=Smart Recipe Backend
+After=network.target mysql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/smart-recipe/backend
+EnvironmentFile=/var/www/smart-recipe/backend/.env
+ExecStart=/usr/bin/node src/server.js
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
