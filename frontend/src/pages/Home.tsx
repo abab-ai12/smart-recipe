@@ -10,6 +10,8 @@ interface HomeProps {
   heroImage: string;
   heroTitle: string;
   heroSubtitle: string;
+  heroTitleEn: string;
+  heroSubtitleEn: string;
 }
 
 interface Recipe {
@@ -54,8 +56,8 @@ const INSPIRATION_POOL = [
   { key: 'crucian_tofu_soup', icon: '🥣' }
 ];
 
-export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) {
-  const { t } = useTranslation();
+export default function Home({ heroImage, heroTitle, heroSubtitle, heroTitleEn, heroSubtitleEn }: HomeProps) {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const generationTimerRef = useRef<number[]>([]);
 
@@ -74,6 +76,12 @@ export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) 
   const [cookingTime, setCookingTime] = useState('30分钟内');
   const [dietaryGoal, setDietaryGoal] = useState('日常均衡');
   const [avoidIngredients, setAvoidIngredients] = useState('');
+  const localizedHeroTitle = i18n.language === 'en'
+    ? heroTitleEn || t('home_hero_title')
+    : heroTitle || t('home_hero_title');
+  const localizedHeroSubtitle = i18n.language === 'en'
+    ? heroSubtitleEn || t('home_hero_subtitle')
+    : heroSubtitle || t('home_hero_subtitle');
 
   // Choose 4 random inspirations initially
   const [inspirations, setInspirations] = useState(() => {
@@ -289,10 +297,10 @@ export default function Home({ heroImage, heroTitle, heroSubtitle }: HomeProps) 
 
         <div className="relative z-10 text-center px-6 max-w-3xl transform -translate-y-2">
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight drop-shadow-md leading-tight font-sans">
-            {heroTitle || t('home_hero_title')}
+            {localizedHeroTitle}
           </h1>
           <p className="text-base md:text-lg text-zinc-200 mb-8 drop-shadow font-medium">
-            {heroSubtitle || t('home_hero_subtitle')}
+            {localizedHeroSubtitle}
           </p>
 
           <div className={`ios-glass bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl p-2 rounded-[22px] flex flex-wrap items-center gap-2 shadow-2xl transition-all duration-300 focus-within:scale-[1.01] ${isGenerating || isRandoming ? 'ai-glowing' : 'border-zinc-200/60 dark:border-zinc-800/80'}`}>

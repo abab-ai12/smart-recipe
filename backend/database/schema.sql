@@ -122,5 +122,7 @@ VALUES
   ('app_browser_title', '智能食谱'),
   ('app_hero_image', ''),
   ('app_hero_title', '探索美食的无限可能'),
-  ('app_hero_subtitle', '只需输入食材，AI 大厨即刻为您规划美味食谱与采购清单。')
+  ('app_hero_subtitle', '输入现有食材，AI 为你智能搭配菜谱、规划步骤，并自动整理采购清单。'),
+  ('app_hero_title_en', 'Discover Endless Culinary Possibilities'),
+  ('app_hero_subtitle_en', 'Enter your ingredients, and AI will intelligently pair recipes, plan each step, and organize your shopping list.')
 ON DUPLICATE KEY UPDATE setting_value = setting_value;

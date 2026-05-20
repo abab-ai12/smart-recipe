@@ -167,7 +167,9 @@ export default function Admin({ isAuthenticated, userRole, appearance, setAppear
             browserTitle: s.app_browser_title || s.app_brand_name || appearance.browserTitle,
             heroImage: s.app_hero_image || appearance.heroImage,
             heroTitle: s.app_hero_title || appearance.heroTitle,
-            heroSubtitle: s.app_hero_subtitle || appearance.heroSubtitle
+            heroSubtitle: s.app_hero_subtitle || appearance.heroSubtitle,
+            heroTitleEn: s.app_hero_title_en || appearance.heroTitleEn,
+            heroSubtitleEn: s.app_hero_subtitle_en || appearance.heroSubtitleEn
           });
           if (activeProvider === 'openai') {
             setApiKey(s.openai_api_key || '');
@@ -221,6 +223,8 @@ export default function Admin({ isAuthenticated, userRole, appearance, setAppear
     settings.app_hero_image = localAppearance.heroImage;
     settings.app_hero_title = localAppearance.heroTitle;
     settings.app_hero_subtitle = localAppearance.heroSubtitle;
+    settings.app_hero_title_en = localAppearance.heroTitleEn;
+    settings.app_hero_subtitle_en = localAppearance.heroSubtitleEn;
 
     return settings;
   };
@@ -1189,7 +1193,7 @@ export default function Admin({ isAuthenticated, userRole, appearance, setAppear
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">首页大标题 (Hero Title)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('admin_hero_title_zh')}</label>
               <input
                 type="text"
                 value={localAppearance.heroTitle || ''}
@@ -1198,11 +1202,32 @@ export default function Admin({ isAuthenticated, userRole, appearance, setAppear
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">首页副标题 (Hero Subtitle)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('admin_hero_subtitle_zh')}</label>
               <input
                 type="text"
                 value={localAppearance.heroSubtitle || ''}
                 onChange={(e) => setLocalAppearance((current) => ({ ...current, heroSubtitle: e.target.value }))}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('admin_hero_title_en')}</label>
+              <input
+                type="text"
+                value={localAppearance.heroTitleEn || ''}
+                onChange={(e) => setLocalAppearance((current) => ({ ...current, heroTitleEn: e.target.value }))}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t('admin_hero_subtitle_en')}</label>
+              <input
+                type="text"
+                value={localAppearance.heroSubtitleEn || ''}
+                onChange={(e) => setLocalAppearance((current) => ({ ...current, heroSubtitleEn: e.target.value }))}
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500 outline-none"
               />
             </div>

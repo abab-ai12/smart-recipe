@@ -15,7 +15,9 @@ const DEFAULT_HERO_IMAGE = "https://images.unsplash.com/photo-1495521821757-a1ef
 const DEFAULT_BRAND_NAME = '智能食谱';
 const DEFAULT_BROWSER_TITLE = '智能食谱';
 const DEFAULT_HERO_TITLE = '探索美食的无限可能';
-const DEFAULT_HERO_SUBTITLE = '只需输入食材，AI 大厨即刻为您规划美味食谱与采购清单。';
+const DEFAULT_HERO_SUBTITLE = '输入现有食材，AI 为你智能搭配菜谱、规划步骤，并自动整理采购清单。';
+const DEFAULT_HERO_TITLE_EN = 'Discover Endless Culinary Possibilities';
+const DEFAULT_HERO_SUBTITLE_EN = 'Enter your ingredients, and AI will intelligently pair recipes, plan each step, and organize your shopping list.';
 
 export interface AppearanceSettings {
   brandName: string;
@@ -25,6 +27,8 @@ export interface AppearanceSettings {
   heroImage: string;
   heroTitle: string;
   heroSubtitle: string;
+  heroTitleEn: string;
+  heroSubtitleEn: string;
 }
 
 function App() {
@@ -52,7 +56,9 @@ function App() {
     browserTitle: DEFAULT_BROWSER_TITLE,
     heroImage: DEFAULT_HERO_IMAGE,
     heroTitle: DEFAULT_HERO_TITLE,
-    heroSubtitle: DEFAULT_HERO_SUBTITLE
+    heroSubtitle: DEFAULT_HERO_SUBTITLE,
+    heroTitleEn: DEFAULT_HERO_TITLE_EN,
+    heroSubtitleEn: DEFAULT_HERO_SUBTITLE_EN
   });
 
   // Authentication State
@@ -88,7 +94,9 @@ function App() {
           browserTitle: remoteAppearance.app_browser_title || remoteAppearance.app_brand_name || DEFAULT_BROWSER_TITLE,
           heroImage: remoteAppearance.app_hero_image || DEFAULT_HERO_IMAGE,
           heroTitle: remoteAppearance.app_hero_title || DEFAULT_HERO_TITLE,
-          heroSubtitle: remoteAppearance.app_hero_subtitle || DEFAULT_HERO_SUBTITLE
+          heroSubtitle: remoteAppearance.app_hero_subtitle || DEFAULT_HERO_SUBTITLE,
+          heroTitleEn: remoteAppearance.app_hero_title_en || DEFAULT_HERO_TITLE_EN,
+          heroSubtitleEn: remoteAppearance.app_hero_subtitle_en || DEFAULT_HERO_SUBTITLE_EN
         });
       } catch {
         const savedImage = localStorage.getItem('app_hero_image');
@@ -262,7 +270,7 @@ function App() {
         {/* Main Content Area */}
         <main className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8 max-w-7xl mx-auto">
           <Routes>
-            <Route path="/" element={<Home heroImage={appearance.heroImage} heroTitle={appearance.heroTitle} heroSubtitle={appearance.heroSubtitle} />} />
+            <Route path="/" element={<Home heroImage={appearance.heroImage} heroTitle={appearance.heroTitle} heroSubtitle={appearance.heroSubtitle} heroTitleEn={appearance.heroTitleEn} heroSubtitleEn={appearance.heroSubtitleEn} />} />
             <Route path="/auth" element={<Auth setAuth={setIsAuthenticated} setUserRole={setUserRole} />} />
             <Route path="/collection" element={<Collection />} />
             <Route path="/shopping-list" element={<ShoppingList appearance={appearance} />} />
