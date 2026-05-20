@@ -7,6 +7,7 @@ const { presentRecipe } = require('../utils/recipePresenter');
 const { buildFallbackGeneratedImage, searchTheMealDbImage } = require('../services/themealdbImageService');
 const { writeUsageLog } = require('../services/usageLogService');
 const { createRecipeVersion, getRecipeVersion, getRecipeVersions } = require('../services/recipeVersionService');
+const { validateIngredients } = require('../utils/ingredientValidator');
 
 const router = express.Router();
 const recipeGenerationLimiter = createRateLimiter({
@@ -146,12 +147,21 @@ router.post('/generate', recipeGenerationLimiter, optionalAuthenticateToken, asy
       return res.status(400).json({ message: 'ingredients must be a non-empty array' });
     }
 
-    const cleanIngredients = ingredients
-      .map((item) => String(item).trim())
-      .filter(Boolean);
+    const {
+      ingredients: cleanIngredients,
+      invalidIngredients
+    } = validateIngredients(ingredients);
 
     if (cleanIngredients.length === 0) {
       return res.status(400).json({ message: 'ingredients must include at least one valid item' });
+    }
+
+    if (invalidIngredients.length > 0) {
+      return res.status(400).json({
+        code: 'INVALID_INGREDIENTS',
+        message: `These items do not look like ingredients: ${invalidIngredients.join(', ')}`,
+        invalidIngredients
+      });
     }
 
     const preferences = normalizeRecipePreferences(req.body?.preferences);

@@ -167,6 +167,19 @@ export default function Home({ heroImage, heroTitle, heroSubtitle, heroTitleEn, 
     avoidIngredients
   });
 
+  const getRecipeGenerationError = (err: any) => {
+    const data = err.response?.data;
+    const invalidIngredients = Array.isArray(data?.invalidIngredients)
+      ? data.invalidIngredients.map((item: unknown) => String(item)).filter(Boolean)
+      : [];
+
+    if (data?.code === 'INVALID_INGREDIENTS' && invalidIngredients.length > 0) {
+      return t('home_invalid_ingredients_detail', { items: invalidIngredients.join(', ') });
+    }
+
+    return data?.message || t('home_generate_error');
+  };
+
   const handleGenerate = async () => {
     const activeTokens = [...ingredientsTags];
     if (ingredientInput.trim()) {
@@ -197,7 +210,7 @@ export default function Home({ heroImage, heroTitle, heroSubtitle, heroTitleEn, 
       }
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(err.response?.data?.message || t('home_generate_error'));
+      setErrorMsg(getRecipeGenerationError(err));
     } finally {
       setIsGenerating(false);
       clearGenerationStatusTimers();
